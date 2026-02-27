@@ -1,0 +1,141 @@
+.movie-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.movie-detail-modal {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #181818;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-detail-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie-detail-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.movie-detail-backdrop {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-color: #333;
+}
+
+.movie-detail-backdrop-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie-detail-trailer-label {
+  margin: 0;
+  padding: 10px 16px 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  background: #181818;
+}
+
+.movie-detail-video-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+}
+
+.movie-detail-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.movie-detail-content {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: 50vh;
+}
+
+.movie-detail-title {
+  margin: 0 0 8px 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.movie-detail-meta {
+  margin: 0 0 12px 0;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.movie-detail-overview {
+  margin: 0 0 20px 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.movie-detail-play-loading {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+}
+
+.movie-detail-full-movie-note {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+  margin: 0 0 12px 0;
+}
+
+.movie-detail-watch-link {
+  display: inline-block;
+  color: #e50914;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-right: 16px;
+  margin-bottom: 8px;
+}
+
+.movie-detail-watch-link:hover {
+  text-decoration: underline;
+}
+
+.movie-detail-no-trailer {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  margin: 0;
+}

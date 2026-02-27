@@ -11,12 +11,18 @@ function isNewRelease(releaseDate) {
   return daysDiff >= 0 && daysDiff <= 60;
 }
 
-export default function MovieCard({ movie }) {
+export default function MovieCard({ movie, onClick }) {
   const posterUrl = getPosterUrl(movie.poster_path) || PLACEHOLDER_POSTER;
   const showNew = isNewRelease(movie.release_date);
 
   return (
-    <div className="movie-card">
+    <div
+      className="movie-card"
+      onClick={() => onClick?.(movie)}
+      onKeyDown={(e) => e.key === 'Enter' && onClick?.(movie)}
+      role="button"
+      tabIndex={0}
+    >
       <div className="movie-card-poster-wrap">
         <img
           className="movie-card-poster"

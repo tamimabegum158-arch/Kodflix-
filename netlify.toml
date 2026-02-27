@@ -1,0 +1,9 @@
+# Netlify build config for Kodflix (Vite + React)
+# Required: Add VITE_TMDB_API_KEY in Netlify Site settings → Environment variables
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"

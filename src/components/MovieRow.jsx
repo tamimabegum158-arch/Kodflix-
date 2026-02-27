@@ -2,12 +2,19 @@ import { useState, useEffect } from 'react';
 import MovieCard from './MovieCard';
 import './MovieRow.css';
 
-export default function MovieRow({ title, fetchMovies }) {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function MovieRow({ title, fetchMovies, onMovieClick, movies: moviesProp }) {
+  const [movies, setMovies] = useState(moviesProp ?? []);
+  const [loading, setLoading] = useState(!moviesProp);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (moviesProp != null) {
+      setMovies(moviesProp);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+    if (!fetchMovies) return;
     let cancelled = false;
     setLoading(true);
     setError(null);
@@ -22,7 +29,7 @@ export default function MovieRow({ title, fetchMovies }) {
         if (!cancelled) setLoading(false);
       });
     return () => { cancelled = true; };
-  }, [fetchMovies]);
+  }, [fetchMovies, moviesProp]);
 
   if (loading) {
     return (
@@ -49,7 +56,7 @@ export default function MovieRow({ title, fetchMovies }) {
       <h2 className="movie-row-title">{title}</h2>
       <div className="movie-row-list">
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} onClick={onMovieClick} />
         ))}
       </div>
     </section>

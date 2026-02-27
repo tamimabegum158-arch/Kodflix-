@@ -1,23 +1,30 @@
-import { useCallback } from 'react';
-import Header from './components/Header';
-import MovieRow from './components/MovieRow';
-import { getPopularMovies, getNowPlaying, getTrendingMovies } from './api/tmdb';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 import './App.css';
 
 function App() {
-  const fetchPopular = useCallback(() => getPopularMovies(), []);
-  const fetchNowPlaying = useCallback(() => getNowPlaying(), []);
-  const fetchTrending = useCallback(() => getTrendingMovies(), []);
-
   return (
-    <div className="app">
-      <Header />
-      <main className="app-main">
-        <MovieRow title="Popular" fetchMovies={fetchPopular} />
-        <MovieRow title="Now in Theaters" fetchMovies={fetchNowPlaying} />
-        <MovieRow title="Trending Today" fetchMovies={fetchTrending} />
-      </main>
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

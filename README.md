@@ -1,51 +1,114 @@
 # Kodflix
 
-A React frontend that fetches movie data from [The Movie Database (TMDB)](https://www.themoviedb.org/) and displays it in a Netflix-style landing page: dark theme, horizontal rows, poster tiles with titles and badges.
+A secured full-stack app with **registration and login**, and a **Netflix-style dashboard** that fetches movie data from [The Movie Database (TMDB)](https://www.themoviedb.org/). Only logged-in users can access the dashboard.
+
+## Features
+
+- **Authentication:** Signup (username, email, phone, password) → Login → JWT stored in HTTP-only cookie
+- **Protected dashboard:** Netflix-style UI with hero banner, movie rows (Trending, Popular, Now in Theaters, Top Rated)
+- **Backend:** Express + SQLite, bcrypt password hashing, JWT in cookie
 
 ## Setup
 
-1. **Install dependencies**
+### 1. TMDB API key
 
-   ```bash
-   cd c:\Users\karee\Desktop\Kodflix
-   npm install
-   ```
+Create a `.env` file in the **project root** (frontend) with:
 
-2. **Environment**
+```
+VITE_TMDB_API_KEY=your_tmdb_api_key
+```
 
-   The app uses the TMDB API key from `.env`. Ensure `.env` exists with:
+Get a free key at [TMDB API](https://www.themoviedb.org/settings/api).
 
-   ```
-   VITE_TMDB_API_KEY=your_tmdb_api_key
-   ```
+### 2. Frontend
 
-   (A key is already set in the project.)
+```bash
+cd c:\Users\karee\Desktop\Kodflix
+npm install
+```
+
+### 3. Backend
+
+```bash
+cd backend
+npm install
+```
+
+Optional: create `backend/.env` for production:
+
+```
+PORT=3001
+JWT_SECRET=your-secret-key
+CORS_ORIGIN=http://localhost:5173
+```
 
 ## Run the app
 
-From the project root:
+**Terminal 1 – Backend**
+
+```bash
+cd backend
+npm run dev
+```
+
+Backend runs at **http://localhost:3001**.
+
+**Terminal 2 – Frontend**
 
 ```bash
 cd c:\Users\karee\Desktop\Kodflix
 npm run dev
 ```
 
-Then open the URL shown in the terminal (e.g. **http://localhost:5173/**) in your browser.
+Frontend runs at **http://localhost:5173**. The Vite dev server proxies `/api` to the backend.
 
-## Verify
+1. **First page:** Open **http://localhost:5173** (or kodflix-puce.vercel.app) → **Sign up** (`/`).
+2. **Second page:** After signup you are redirected to **Login** (`/login`). Log in with username and password.
+3. **Third page:** After login you are redirected to the **Dashboard** (`/dashboard` – Netflix-style hero + movie rows). Use **Log out** in the header to sign out.
 
-- **Data:** Open DevTools → Network, filter by “Fetch/XHR”. You should see requests to `api.themoviedb.org` (e.g. `/movie/popular`, `/movie/now_playing`, `/trending/movie/day`) returning 200 and JSON with `results` arrays.
-- **UI:** You should see three horizontal rows (“Popular”, “Now in Theaters”, “Trending Today”), each with poster images, “NETFLIX” badge on posters, titles below, and “NEW” on recent releases. Dark background (#141414), horizontal scroll per row, vertical scroll for the page.
+**Routes:** `/` = Sign up (first), `/login` = Login (second), `/dashboard` = Dashboard (third, protected).
 
-## Build for production
+## Project structure
 
-```bash
-npm run build
-npm run preview
+- **Frontend:** `src/` – Signup, Login, protected Dashboard, AuthContext, TMDB API client
+- **Backend:** `backend/` – Express, SQLite (`users` table), `/api/auth/register`, `/api/auth/login`, `/api/auth/logout`, `/api/auth/me` (JWT in HTTP-only cookie)
+
+## Troubleshooting
+
+**Port 3001 already in use (EADDRINUSE)**
+
+1. Find the process using the port (PowerShell):
+   ```powershell
+   netstat -ano | findstr :3001
+   ```
+   Note the last number (PID), e.g. `6352`.
+
+2. Stop that process (replace `6352` with your PID):
+   ```powershell
+   taskkill /PID 6352 /F
+   ```
+
+3. Start the backend again:
+   ```powershell
+   cd c:\Users\karee\Desktop\Kodflix\backend
+   npm run dev
+   ```
+
+**Use a different port (e.g. 3002)**  
+In PowerShell, set the port then run (no extra `cd backend` if you’re already in `backend`):
+```powershell
+$env:PORT="3002"
+npm run dev
 ```
+Then in `vite.config.js` change the proxy target to `http://localhost:3002` if the frontend must talk to this port.
+
+## Deployment
+
+- **Frontend (Vercel/Netlify):** Set `VITE_TMDB_API_KEY` and `VITE_API_URL` (your backend URL) in environment variables.
+- **Backend:** Deploy the `backend/` folder (e.g. Railway, Render, Fly.io). Set `CORS_ORIGIN` to your frontend URL and `JWT_SECRET` for production.
 
 ## Tech
 
-- React 19 + Vite 7
-- TMDB API: popular, now playing, trending movies
-- Poster images: `https://image.tmdb.org/t/p/w500`
+- React 19 + Vite 7 + React Router
+- Express, SQLite (better-sqlite3), bcryptjs, jsonwebtoken, cookie-parser, cors
+- TMDB API: trending, popular, now playing, top rated

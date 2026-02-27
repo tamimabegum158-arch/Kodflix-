@@ -1,6 +1,15 @@
 .movie-card {
   flex: 0 0 auto;
   width: 160px;
+  cursor: pointer;
+}
+
+.movie-card:hover .movie-card-poster-wrap {
+  transform: scale(1.05);
+}
+
+.movie-card .movie-card-poster-wrap {
+  transition: transform 0.2s ease;
 }
 
 .movie-card-poster-wrap {

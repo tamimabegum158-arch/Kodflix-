@@ -7,6 +7,7 @@
   background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 24px;
   z-index: 100;
 }
@@ -16,4 +17,34 @@
   font-weight: 700;
   color: #e50914;
   letter-spacing: -0.5px;
+  text-decoration: none;
+}
+
+.kodflix-logo:hover {
+  color: #f40612;
+}
+
+.kodflix-header-user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.kodflix-header-username {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+}
+
+.kodflix-header-logout {
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.kodflix-header-logout:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
