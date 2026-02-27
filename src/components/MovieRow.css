@@ -1,0 +1,46 @@
+.movie-row {
+  margin-bottom: 32px;
+}
+
+.movie-row-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 12px 0;
+  padding: 0 0 0 4px;
+}
+
+.movie-row-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 0 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #444 #222;
+}
+
+.movie-row-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.movie-row-list::-webkit-scrollbar-track {
+  background: #222;
+}
+
+.movie-row-list::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+.movie-row-loading,
+.movie-row-error {
+  color: #999;
+  padding: 24px;
+  justify-content: center;
+  min-height: 240px;
+  align-items: center;
+}
+
+.movie-row-error {
+  color: #e50914;
+}
