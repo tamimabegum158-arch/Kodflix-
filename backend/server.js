@@ -21,6 +21,10 @@ app.use('/api/auth', authRoutes);
 
 app.get('/api/health', (_, res) => res.json({ ok: true }));
 
-app.listen(PORT, () => {
-  console.log(`Kodflix backend running on http://localhost:${PORT}`);
-});
+// Export for Vercel serverless; listen only when running locally
+export default app;
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`Kodflix backend running on http://localhost:${PORT}`);
+  });
+}
