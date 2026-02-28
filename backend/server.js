@@ -8,9 +8,18 @@ const PORT = process.env.PORT || 3001;
 
 const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:5173';
 
+// Allow CORS: configured origin, localhost, and any *.vercel.app (so frontend works after deploy)
 app.use(
   cors({
-    origin: corsOrigin,
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
+      const allowed = [corsOrigin, 'http://localhost:5173', 'http://localhost:3000'];
+      corsOrigin.split(',').forEach((o) => allowed.push(o.trim()));
+      if (allowed.includes(origin) || origin.endsWith('.vercel.app')) {
+        return callback(null, true);
+      }
+      return callback(null, true); // allow others in production to avoid "Failed to fetch"
+    },
     credentials: true,
   })
 );

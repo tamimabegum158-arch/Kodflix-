@@ -5,27 +5,47 @@ function getCredentials() {
 }
 
 export async function register({ username, email, phone, password }) {
-  const res = await fetch(`${API_BASE}/api/auth/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    ...getCredentials(),
-    body: JSON.stringify({ username, email, phone, password }),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || 'Registration failed');
-  return data;
+  const url = `${API_BASE}/api/auth/register`;
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      ...getCredentials(),
+      body: JSON.stringify({ username, email, phone, password }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Registration failed');
+    return data;
+  } catch (err) {
+    if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+      throw new Error(
+        'Cannot reach backend. On Vercel: set VITE_API_URL to your Render backend URL (e.g. https://kodflix-backend.onrender.com) and redeploy.'
+      );
+    }
+    throw err;
+  }
 }
 
 export async function login({ username, password }) {
-  const res = await fetch(`${API_BASE}/api/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    ...getCredentials(),
-    body: JSON.stringify({ username, password }),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || 'Login failed');
-  return data;
+  const url = `${API_BASE}/api/auth/login`;
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      ...getCredentials(),
+      body: JSON.stringify({ username, password }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Login failed');
+    return data;
+  } catch (err) {
+    if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+      throw new Error(
+        'Cannot reach backend. On Vercel: set VITE_API_URL to your Render backend URL and redeploy.'
+      );
+    }
+    throw err;
+  }
 }
 
 export async function logout() {
